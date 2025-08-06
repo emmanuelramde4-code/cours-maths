@@ -1,0 +1,24 @@
+{% extends 'cours_maths/base.html' %}
+{% block title %}Résultat du Quiz{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+  <h2 class="mb-4">{{ quiz.titre }}</h2>
+
+  <div class="alert alert-info">
+    <h4>Tu as obtenu {{ score }} /{{ total_questions }}</h4>
+  </div>
+
+  <div class="d-flex gap-3 mt-4">
+    <a href="{% url 'quiz_correction' quiz.id %}" class="btn btn-success btn-lg">
+      Voir la correction
+    </a>
+    <a href="{% url 'quiz_explication' quiz.id %}" class="btn btn-primary btn-lg">
+      Voir les explications
+    </a>
+    <a href="{% url 'quiz_detail' quiz.id %}" class="btn btn-warning btn-lg">
+      Rejouer le quiz 🔄
+    </a>
+  </div>
+</div>
+{% endblock %}

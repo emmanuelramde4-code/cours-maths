@@ -1,0 +1,41 @@
+{% extends "cours_maths/base.html" %}
+{% block title %}{{ quiz.titre }}{% endblock %}
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-md-8">
+    <div class="card shadow mb-4">
+      <div class="card-header bg-warning text-dark">
+        <h2 class="mb-0">{{ quiz.titre }}</h2>
+      </div>
+      <div class="card-body">
+        <form method="post" action="{% url 'quiz_submit' quiz.id %}">
+          {% csrf_token %}
+          {% for question in questions %}
+            <div class="mb-4">
+              <p class="fw-bold">{{ question.texte }}</p>
+              {% if question.image %}
+                <img src="{{ question.image.url }}" alt="Image de la question"
+                     class="img-fluid rounded mb-2">
+              {% endif %}
+              <div>
+                {% for reponse in question.reponses.all %}
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" name="{{ question.id }}" value="{{ reponse.id }}" id="q{{ question.id }}r{{ reponse.id }}">
+                    <label class="form-check-label" for="q{{ question.id }}r{{ reponse.id }}">
+                      {{ reponse.texte }}
+                    </label>
+                  </div>
+                {% endfor %}
+              </div>
+            </div>
+          {% endfor %}
+          <button type="submit" class="btn btn-success">Valider mes réponses</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+<!-- MathJax pour les formules -->
+<script src=

@@ -1,0 +1,28 @@
+{% extends 'cours_maths/base.html' %}
+{% block title %}Correction{% endblock %}
+
+{% block content %}
+  <div class="container">
+    <h2>Correction du quiz : {{ quiz.titre }}</h2>
+
+    {% for question in questions %}
+      <div class="card my-4">
+        <div class="card-header">
+          <strong>Question {{ forloop.counter }} :</strong> {{ question.texte }}
+        </div>
+        <div class="card-body">
+          {% for reponse in question.reponses.all %}
+            <p class="{% if reponse.est_correcte %}text-success{% else %}text-muted{% endif %}">
+              - {{ reponse.texte }} 
+              {% if reponse.est_correcte %}
+                ✅ Bonne réponse
+              {% endif %}
+            </p>
+          {% endfor %}
+        </div>
+      </div>
+    {% endfor %}
+
+    <a href="{% url 'quiz_resultat' quiz.id %}" class="btn btn-primary">Retour au score</a>
+  </div>
+{% endblock %}

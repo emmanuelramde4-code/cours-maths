@@ -1,0 +1,37 @@
+<!-- cours/templates/cours/liste_classes.html -->
+
+<h1>Liste des cours</h1>
+
+{% for classe in classes %}
+  <h2>Classe : {{ classe.nom }}</h2>
+
+  {% for chapitre in classe.chapitres.all %}
+    <h3>Chapitre : {{ chapitre.nom }}</h3>
+
+    <ul>
+      {% for lecon in chapitre.lecons.all %}
+        <li>
+          {% if lecon.fichier %}
+            — <a href="{{ lecon.fichier.url }}">📄 lecons.nom</a>
+          {% endif %}
+          {% if lecon.image %}
+            — <img src="{{ lecon.image.url }}" width="100">
+          {% endif %}
+        </li>
+      {% endfor %}
+
+      {% for exercice in chapitre.exercices.all %}
+        <li>
+          📝 <strong>Exercice : {{ exercice.titre }}</strong>
+          {% if exercice.fichier %}
+            — <a href="{{ exercice.fichier.url }}">📄 Télécharger</a>
+          {% endif %}
+
+          {% if exercice.correction and exercice.correction.fichier %}
+            — ✅ <a href="{{ exercice.correction.fichier.url }}">Corrigé</a>
+          {% endif %}
+        </li>
+      {% endfor %}
+    </ul>
+  {% endfor %}
+{% endfor %}

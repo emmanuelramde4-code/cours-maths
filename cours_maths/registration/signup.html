@@ -1,0 +1,11 @@
+{% extends "cours_maths/base.html" %}
+{% block title %}Inscription{% endblock %}
+{% block content %}
+<h2>Inscription</h2>
+<form method="post">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button type="submit" class="btn btn-success">S'inscrire</button>
+</form>
+<p>Déjà inscrit ? <a href="{% url 'login' %}">Connecte-toi</a></p>
+{% endblock %}

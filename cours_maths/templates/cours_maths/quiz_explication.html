@@ -1,0 +1,35 @@
+{% extends 'cours_maths/base.html' %}
+{% block title %}Explications{% endblock %}
+
+{% block content %}
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-10">
+        <div class="mb-4">
+          <h2 class="text-center text-primary">Explications du quiz : {{ quiz.titre }}</h2>
+        </div>
+
+        {% for question in questions %}
+          <div class="card shadow-sm my-4">
+            <div class="card-header bg-info text-white">
+              <strong>Question {{ forloop.counter }} :</strong> {{ question.texte }}
+            </div>
+            <div class="card-body">
+              {% if question.explication %}
+                <p><strong>Explication :</strong> {{ question.explication.texte }}</p>
+              {% else %}
+                <p class="text-muted">Pas d'explication disponible pour cette question.</p>
+              {% endif %}
+            </div>
+          </div>
+        {% endfor %}
+
+        <div class="text-center mt-4">
+          <a href="{% url 'quiz_resultat' quiz.id %}" class="btn btn-primary btn-lg">
+            Retour au score
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

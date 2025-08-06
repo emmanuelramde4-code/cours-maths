@@ -1,0 +1,3 @@
+<h2>Résultat du Quiz : {{ quiz.titre }}</h2>
+<p>Score : {{ score }} / {{ total }}</p>
+<a href="{% url 'quiz_detail' quiz.id %}">Rejouer</a>
