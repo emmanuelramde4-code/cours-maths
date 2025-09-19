@@ -15,6 +15,8 @@ urlpatterns = [
  path('signup/', views.signup_view, name='signup'),
 
  path('',include('cours_maths.urls')),
+  path('', include('accounts.urls')),
+  path("", include("django.contrib.auth.urls")),
  ]
 
 if settings.DEBUG:

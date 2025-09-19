@@ -23,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = "django-insecure-zk9&^*qhru8zer%aqi0r$$x3fw6+21#1g-=)n@g6%nca4@s)30"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['ramdess.pythonanywhere.com', '127.0.0.1', 'localhost']
 
@@ -37,7 +37,8 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-'cours_maths']
+    'cours_maths',
+     'accounts']
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
@@ -128,3 +129,11 @@ MEDIA_ROOT = BASE_DIR / 'media'
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
+### aujourd'hui
+# Modèle utilisateur personnalisé
+AUTH_USER_MODEL = 'accounts.User'  # Remplacez 'votre_app' par le nom de votre app
+
+# URLs de redirection
+LOGIN_REDIRECT_URL='accueil_eleves'
+LOGIN_URL = 'login'
+#LOGIN_REDIRECT_URL = 'dashboard'

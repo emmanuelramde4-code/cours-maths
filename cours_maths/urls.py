@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.urls import path
 from . import views
 urlpatterns = [
- path('',views.accueil_eleves, name='accueil_eleves'),
+path('accueil_eleves',views.accueil_eleves, name='accueil_eleves'),
  path('list_classe',views.liste_classes),
  path('eleves/', views.liste_classes, name='liste_classes'),
  path('eleves/classe/<int:classe_id>/', views.liste_chapitres, name='liste_chapitres'),
