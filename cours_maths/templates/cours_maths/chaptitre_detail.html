@@ -1,82 +1,146 @@
 {% extends "cours_maths/base.html" %}
 {% block title %}{{ chapitre.titre }}{% endblock %}
+
 {% block content %}
-<div class="row justify-content-center">
-  <div class="col-md-10">
-    <div class="card shadow mb-4">
-      <div class="card-header bg-primary text-white">
-        <h2 class="mb-0">{{ chapitre.titre }}</h2>
-      </div>
-      <div class="card-body">
+<div class="container my-4">
+  <div class="card shadow" style="background: #fff;">
+    <div class="card-header bg-primary text-white text-center">
+      <h2 class="mb-0">{{ chapitre.titre }}</h2>
+    </div>
 
-        <div class="mb-4">
-          <h4>📘 Leçons</h4>
-          <ul class="list-group">
-            {% for lecon in lecons %}
-              <li class="list-group-item d-flex justify-content-between align-items-center">
-                <span>{{ lecon.nom }}</span>
-                {% if lecon.fichier %}
-                  <a href="{{ lecon.fichier.url }}" target="_blank" class="btn btn-outline-info btn-sm">📄 PDF</a>
+    <div class="card-body">
+      <!-- Modifié: row-cols-lg-3 au lieu de row-cols-lg-6 pour avoir 3 colonnes sur grand écran -->
+      <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 text-center">
+
+        <!-- Cours complet -->
+        <div class="col">
+          <div class="card h-100 border-primary">
+            <div class="card-header bg-primary text-white">
+              📚 Cours complet
+            </div>
+            <ul class="list-group list-group-flush">
+              {% for lecon in lecons %}
+                {% if lecon.contenu %}
+                  <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <span class="text-start flex-grow-1 me-2">{{ lecon.nom }}</span>
+                    <a href="{{ lecon.contenu.url }}" target="_blank" class="btn btn-outline-primary btn-sm flex-shrink-0">PDF</a>
+                  </li>
                 {% endif %}
-              </li>
-            {% empty %}
-              <li class="list-group-item text-muted text-center">Aucune leçon disponible.</li>
-            {% endfor %}
-          </ul>
+              {% empty %}
+                <li class="list-group-item text-muted">Aucun cours complet</li>
+              {% endfor %}
+            </ul>
+          </div>
         </div>
 
-        <div class="mb-4">
-          <h4>🎬 Vidéos</h4>
-          <ul class="list-group">
-            {% for video in videos %}
-              <li class="list-group-item">
-                <div class="mb-2"><strong>{{ video.titre }}</strong></div>
-                {% if video.url %}
-                  {% if "youtube.com" in video.url or "youtu.be" in video.url %}
-                    <div class="ratio ratio-16x9">
-                      <iframe src="{{ video.url|add:'?rel=0' }}" frameborder="0" allowfullscreen></iframe>
-                    </div>
-                  {% else %}
-                    <video controls width="100%">
-                      <source src="{{ video.url }}" type="video/mp4">
-                      Votre navigateur ne supporte pas la vidéo.
-                    </video>
+        <!-- Leçons -->
+        <div class="col">
+          <div class="card h-100 border-info">
+            <div class="card-header bg-info text-white">
+              📘 Leçons
+            </div>
+            <ul class="list-group list-group-flush">
+              {% for lecon in lecons %}
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                  <span class="text-start flex-grow-1 me-2">{{ lecon.nom }}</span>
+                  {% if lecon.fichier %}
+                    <a href="{{ lecon.fichier.url }}" target="_blank" class="btn btn-outline-info btn-sm flex-shrink-0">PDF</a>
                   {% endif %}
-                {% endif %}
-              </li>
-            {% empty %}
-              <li class="list-group-item text-muted text-center">Aucune vidéo disponible.</li>
-            {% endfor %}
-          </ul>
+                </li>
+              {% empty %}
+                <li class="list-group-item text-muted">Aucune</li>
+              {% endfor %}
+            </ul>
+          </div>
         </div>
 
-        <div class="mb-4">
-          <h4>📝 Exercices</h4>
-          <ul class="list-group">
-            {% for exo in exercices %}
-              <li class="list-group-item d-flex justify-content-between align-items-center">
-                <span>{{ exo.titre }}</span>
-                {% if exo.fichier %}
-                  <a href="{{ exo.fichier.url }}" target="_blank" class="btn btn-outline-success btn-sm">📄 Voir</a>
-                {% endif %}
-              </li>
-            {% empty %}
-              <li class="list-group-item text-muted text-center">Aucun exercice disponible.</li>
-            {% endfor %}
-          </ul>
+        <!-- Vidéos -->
+        <div class="col">
+          <div class="card h-100 border-danger">
+            <div class="card-header bg-danger text-white">
+              🎬 Vidéos
+            </div>
+            <ul class="list-group list-group-flush">
+              {% for video in videos %}
+                <li class="list-group-item">
+                  <strong class="d-block text-start mb-2">{{ video.titre }}</strong>
+                  {% if video.url %}
+                    {% if "youtube.com" in video.url or "youtu.be" in video.url %}
+                      <div class="ratio ratio-16x9 mt-2">
+                        <iframe src="{{ video.url|add:'?rel=0' }}" frameborder="0" allowfullscreen></iframe>
+                      </div>
+                    {% else %}
+                      <video controls width="100%" class="mt-2">
+                        <source src="{{ video.url }}" type="video/mp4">
+                      </video>
+                    {% endif %}
+                  {% endif %}
+                </li>
+              {% empty %}
+                <li class="list-group-item text-muted">Aucune</li>
+              {% endfor %}
+            </ul>
+          </div>
         </div>
 
-        <div>
-          <h4>🎯 Quiz</h4>
-          <ul class="list-group">
-            {% for q in quiz %}
-              <li class="list-group-item">
-                <a href="{% url 'quiz_detail' q.id %}" class="btn btn-outline-warning btn-sm">{{ q.titre }}</a>
-              </li>
-            {% empty %}
-              <li class="list-group-item text-muted text-center">Aucun quiz disponible.</li>
-            {% endfor %}
-          </ul>
+        <!-- Exercices -->
+        <div class="col">
+          <div class="card h-100 border-success">
+            <div class="card-header bg-success text-white">
+              📝 Exercices
+            </div>
+            <ul class="list-group list-group-flush">
+              {% for exo in exercices %}
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                  <span class="text-start flex-grow-1 me-2">{{ exo.titre }}</span>
+                  {% if exo.fichier %}
+                    <a href="{{ exo.fichier.url }}" target="_blank" class="btn btn-outline-success btn-sm flex-shrink-0">Voir</a>
+                  {% endif %}
+                </li>
+              {% empty %}
+                <li class="list-group-item text-muted">Aucun</li>
+              {% endfor %}
+            </ul>
+          </div>
+        </div>
+
+        <!-- Corrections -->
+        <div class="col">
+          <div class="card h-100 border-secondary">
+            <div class="card-header bg-secondary text-white">
+              ✅ Corrections
+            </div>
+            <ul class="list-group list-group-flush">
+              {% for correction in corrections %}
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                  <span class="text-start flex-grow-1 me-2">{{ correction.titre }}</span>
+                  {% if correction.fichier %}
+                    <a href="{{ correction.fichier.url }}" target="_blank" class="btn btn-outline-secondary btn-sm flex-shrink-0">Voir</a>
+                  {% endif %}
+                </li>
+              {% empty %}
+                <li class="list-group-item text-muted">Aucune</li>
+              {% endfor %}
+            </ul>
+          </div>
+        </div>
+
+        <!-- Quiz -->
+        <div class="col">
+          <div class="card h-100 border-warning">
+            <div class="card-header bg-warning text-dark">
+              🎯 Quiz
+            </div>
+            <ul class="list-group list-group-flush">
+              {% for q in quiz %}
+                <li class="list-group-item">
+                  <a href="{% url 'quiz_detail' q.id %}" class="btn btn-outline-warning btn-sm w-100 text-start">{{ q.titre }}</a>
+                </li>
+              {% empty %}
+                <li class="list-group-item text-muted">Aucun</li>
+              {% endfor %}
+            </ul>
+          </div>
         </div>
 
       </div>

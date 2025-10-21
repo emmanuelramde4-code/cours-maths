@@ -20,7 +20,7 @@ class Chapitre(models.Model):
 
 class Lecon(models.Model):
     nom = models.CharField(max_length=200)
-    contenu = models.TextField()
+    contenu = models.FileField(upload_to='lecons_pdfs/', null=True, blank=True)  # ✅
     fichier = models.FileField(upload_to='lecons_pdfs/', null=True, blank=True)  # ✅
     chapitre = models.ForeignKey('Chapitre', on_delete=models.CASCADE, related_name='lecons')
 
@@ -41,7 +41,7 @@ class Video(models.Model):
 
 class Exercice(models.Model):
     titre = models.CharField(max_length=200)
-    contenu = models.TextField()
+    contenu = models.FileField(upload_to='exercices_pdfs/', null=True, blank=True)  # ✅
     fichier = models.FileField(upload_to='exercices_pdfs/', null=True, blank=True)  # ✅
     chapitre = models.ForeignKey('Chapitre', on_delete=models.CASCADE, related_name='exercices')
 
@@ -50,7 +50,7 @@ class Exercice(models.Model):
 
 
 class Correction(models.Model):
-    contenu = models.TextField()
+    titre = models.CharField(max_length=200, default="Correction sans titre")
     fichier = models.FileField(upload_to='corrections_pdfs/', null=True, blank=True)  # ✅
     exercice = models.OneToOneField(Exercice, on_delete=models.CASCADE, related_name='correction')
 

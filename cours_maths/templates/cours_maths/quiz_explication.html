@@ -15,8 +15,19 @@
               <strong>Question {{ forloop.counter }} :</strong> {{ question.texte }}
             </div>
             <div class="card-body">
+              
               {% if question.explication %}
                 <p><strong>Explication :</strong> {{ question.explication.texte }}</p>
+
+                {% if question.explication.image %}
+                  <div class="text-center my-3">
+                    <img src="{{ question.explication.image.url }}" 
+                         alt="Image d'explication"
+                         class="img-fluid rounded shadow-sm"
+                         style="max-width: 500px;">
+                  </div>
+                {% endif %}
+              
               {% else %}
                 <p class="text-muted">Pas d'explication disponible pour cette question.</p>
               {% endif %}

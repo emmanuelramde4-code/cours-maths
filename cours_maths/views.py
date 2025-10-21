@@ -4,7 +4,7 @@ from django.shortcuts import render
 from .models import Classe
 
 from django.shortcuts import render, get_object_or_404
-from .models import (Classe, Chapitre, Lecon, Video, Exercice, Quiz)
+from .models import (Classe, Chapitre, Lecon, Video, Exercice, Quiz,Correction)
 
 def accueil(request):
     return render(request, 'cours_maths/home.html')
@@ -32,11 +32,15 @@ def chapitre_detail(request, chapitre_id):
     lecons = chapitre.lecons.all()
     exercices = chapitre.exercices.all()
     quiz = chapitre.quiz.all()
+    videos = Video.objects.filter(lecon__in=lecons)
+    corrections = Correction.objects.filter(exercice__in=exercices)
     return render(request, 'cours_maths/chaptitre_detail.html', {
         'chapitre': chapitre,
         'lecons': lecons,
         'exercices': exercices,
-        'quiz': quiz
+        'corrections':corrections, 
+        'quiz': quiz,
+        'videos': videos,
     })
 
 def accueil_eleves(request):
